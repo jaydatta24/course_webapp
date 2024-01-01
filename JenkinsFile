@@ -1,0 +1,30 @@
+@Library('jaydatta_shared_lib') _
+
+pipeline{
+    agent any
+    
+    tools{
+        maven "Maven-3.9.4"
+    }
+    
+    stages{
+        
+        stage('Git Clone'){
+            steps{
+                git branch: 'main', url: 'https://github.com/ashokitschool/courses_web_app.git'
+            }
+        }
+        
+        stage('Build'){
+            steps{
+              mavenBuild()
+            }
+        }
+        
+        stage('Code Review'){
+            steps{
+              sonarQube()
+            }
+        }
+    }
+}
